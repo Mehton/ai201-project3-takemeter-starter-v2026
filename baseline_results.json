@@ -1,0 +1,190 @@
+{
+  "model": "facebook/bart-large-mnli",
+  "n": 30,
+  "seed": 42,
+  "held_out": false,
+  "used_definitions": true,
+  "scores": {
+    "n": 30,
+    "accuracy": 0.5,
+    "f1_macro": 0.46153846153846156,
+    "per_label": {
+      "analysis": {
+        "precision": 0.2,
+        "recall": 1.0,
+        "f1": 0.33333333333333337,
+        "support": 3
+      },
+      "bot": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6666666666666666,
+        "support": 1
+      },
+      "hot_take": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 13
+      },
+      "reaction": {
+        "precision": 0.8461538461538461,
+        "recall": 0.8461538461538461,
+        "f1": 0.8461538461538461,
+        "support": 13
+      }
+    }
+  },
+  "predictions": [
+    {
+      "text": "cheated as a player, claimed he didnt know about the drugs & blamed it on a doctor. Was acquitted on a technicality as they couldn\u2019t go back and test the sample again. He then hired the doctor he blamed at Barca once he became manager, also took him to Bayern which lead to the resignation of the rest of Bayerns medical team before moving onto city.  His entire career is built upon cheating",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "That should be lengthy ban.",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Hope he receives similar farewell from both Inter Miami and Barcelona when he retires from professional football.",
+      "gold": "reaction",
+      "predicted": "analysis"
+    },
+    {
+      "text": "what an unexpectedly pleasant drive by from the dictator himself.",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "If I were his kids, I would absolutely focus on anything academic and non football.",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "I just wish football would sort this out. It's embarrassing to the game. If you go harrass the ref it should be an auto-booking.  Trying to coach younger players to have resilience and a bit of discipline, skills they will need in life, and then the overly entitled egotists they see on tv act like this. Shameful",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "We are watching a guy's mental health deteriorate weekly on live tv",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "The correct thing to do would be to be strip them of all their trophies and keep the trophies unrewarded to any team.   This way they would be remembered for the cheating cunts they are. Future generations would remember a season with no winner (technicality) whatever the competition may be.",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Throwing his idol under the bus, just like that. \ud83d\ude2d",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "This doesn\u2019t even show the pouring rain that makes it 100x more impressive in my book",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Man looks like he just escaped Shawshank",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "I wouldn't even try this in fifa  I would be scared",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Good lord that's a disgusting goal.",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "hes fucking back",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Imagine hidden contracts with Haaland, his father and his family lol",
+      "gold": "hot_take",
+      "predicted": "bot"
+    },
+    {
+      "text": "holy fk - that power and bend is nuts",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Watch everyone come and call it damage control",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "you know its bad when rudiger is trying to be the voice of reason",
+      "gold": "hot_take",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Swapped to Ultra Attacking.",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "He's being honest. I doubt he wants to stay in football that long. He retires at 35.",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "It was totally not suspicious either when City ended up with an absurdly high shirt sponsorship deal from a business associated with their owner, well beyond what the other bigger, more internationally established English football clubs with much larger fan bases and commercial reach could get.",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "**Mirrors / Alternative Angles**     *I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/soccer) if you have any questions or concerns.*",
+      "gold": "bot",
+      "predicted": "bot"
+    },
+    {
+      "text": "I will never undestand how var decides when to react.Its sooo inconsistent",
+      "gold": "hot_take",
+      "predicted": "reaction"
+    },
+    {
+      "text": "If you\u2019re a City fan and you chose to support them since 2013 (so 99% of you on here), you chose to support a team that cooked the books and cheated their way to success. In other words, you chose to back the biggest cheats in English football history. You have no leg to stand on.  The reaction to this today is actually mad - you\u2019ve got the British PM commenting on it. You\u2019re fucked and you know it.",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Princessa please. We haven't forgotten Factos \ud83d\udc4d \ud83d\udc40  July 2026: \"Cristiano Ronaldo's account likes 'FIFA wanted to give World Cup to Messi' post on Instagram as 'corruption' claim made before Argentina's final defeat to Spain\"  [https://www.goal.com/en-gb/lists/cristiano-ronaldo-account-likes-fifa-wanted-to-give-world-cup-to-messi-post-instagram-corruption-claim-argentina-final-defeat-spain/blt2ac4e81ee368b5eb](https://www.goal.com/en-gb/lists/cristiano-ronaldo-account-likes-fifa-wanted-to-give-world-cup-to-messi-post-instagram-corruption-claim-argentina-final-defeat-spain/blt2ac4e81ee368b5eb)",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Take notes Ronaldo, this is how a legend leaves with his head held high",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Brother who gave him access to the Atleti office printer",
+      "gold": "reaction",
+      "predicted": "analysis"
+    },
+    {
+      "text": "All this just proves how great a manager Klopp was in being able to win against a team that has been artificially inflating their revenue with funds disguised as commercial income for years.   Pep can only dream of doing what Klopp did at Dortmund and Liverpool.",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "I find it shocking that nobody ever seemd to raise eybrows to the fact that Pep's brother, who was a nobody in the football world, with no executive experience, came to be on the board of a UAE owned club and even became its chairman. Its was such an obviously fishy situation, prone to financial fucker, but for some reason, everybody though it was normal.  Is it *really* any surprising at all that they were making dodgy payments to their previous managers?",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Didn't want to get blood on his hands.",
+      "gold": "reaction",
+      "predicted": "reaction"
+    }
+  ]
+}

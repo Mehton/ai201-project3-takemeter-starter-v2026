@@ -63,6 +63,7 @@ def load_definitions(path):
         analysis: makes an argument backed by a specific checkable fact
         hot_take: a confident claim with no support offered
         reaction: an immediate response to something that just happened
+        bot: A comment made by a bot (A message automatically generated and posted by a computer program)
 
     Copy these from your README so the baseline is judged on exactly the
     definitions you wrote. If the file doesn't exist, the label names are used
