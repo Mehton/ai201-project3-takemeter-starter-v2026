@@ -42,8 +42,6 @@
 <!-- Your community, and what your classifier sorts posts into. Three or four
      sentences. -->
 
-
-
 ---
 
 ## Label Taxonomy
@@ -54,35 +52,85 @@
      The decision rule is worth a point on its own and it's the thing most
      people leave out. Every taxonomy has a hardest boundary. Name yours. -->
 
-### `label_one`
+### `analysis`
 
-**Definition:**
-
-**Example 1:**
->
-
-**Example 2:**
->
-
-### `label_two`
-
-**Definition:**
+**Definition:** Makes an argument backed by a specific, checkable fact.
 
 **Example 1:**
->
+
+> Given Everton were deducted 10 points for one breach, I propose a 1140 point deduction. However, deducting that all in one season would be silly. Therefore: a 114 point deduction per season for the next decade.
 
 **Example 2:**
->
+
+> It was considered, that's just City PR spin. See paragraph 108 of the report 108) Those challenges and defences are considered in detail in Appendices 3, 27, 28 and 31. The conclusions that we reached were that a) The Club’s challenges to the PL’s ability to bring the Charges failed b) None of the matters raised by the Club provided it with a defence to any of the Charges
+
+### `hot_take`
+
+**Definition:** A confident claim with no support offered.
+
+**Example 1:**
+
+> EA I think should give him a hero card, great striker and his country's goat
+
+**Example 2:**
+
+> Is this sub just Ronaldo posts all the time now? What he's said, what other people have said, what he hasn't said, what he had for breakfast, whether his sister has a job. Isn't there a CR7 sub for this?
+
+### `reaction`
+
+**Definition:** An immediate response to something that just happened.
+
+**Example 1:**
+
+> Absolutely one of the best goals I have ever seen in the Aviva, I fucking love Parrott
+
+**Example 2:**
+
+> Didn’t see that coming
+
+### `bot`
+
+**Definition:** A comment made by a bot (a message automatically generated and posted by a computer program).
+
+**Example 1:**
+
+> \*\*Mirrors / Alternative Angles\*\* \*I am a bot, and this action was performed automatically. Please [contact the moderators of this subreddit](/message/compose/?to=/r/soccer) if you have any questions or concerns.\*
+
+**Example 2:**
+
+> \*\*FREE CONGO, SUDAN AND PALESTINE 🇸🇩 🇨🇩\*\* 🇵🇸
 
 ### The hardest boundary
 
-**Which two labels:**
+**Which two labels:** `analysis` and `hot_take`
+
+**The borderline post:**
+
+> Spurs had 70% possession; that’s insane. Chelsea have no midfield. Alonso will be gone soon.
+
+It opens with one checkable stat (70% possession) and then makes two confident claims that the stat only partly supports.
 
 **The decision rule I used every time:**
-<!-- e.g. "If the post names a specific checkable fact, it's `analysis`, even
-     if the tone is heated." -->
+If the post names at least one specific, checkable fact (a stat, a score, a date, a rule, a quoted report, or a described replay angle) and uses it to support its claim, it's `analysis`, even if the tone is heated and the rest of the post is opinion. If it makes a claim with no checkable fact behind it, it's `hot_take`. The borderline post above is `analysis`, because the 70% stat is the evidence for "Chelsea have no midfield."
 
+**Second rule (`reaction` vs. the other two):** If the post's main point is a feeling about something that just happened, it's `reaction`, even if it mentions a fact in passing ("Can't believe we lost to the team bottom of the table 😭"). A fact only makes a post `analysis` when the post is arguing something with it.
 
+### Stress test
+
+I gave an AI tool my definitions and asked for eight posts that sit on my boundaries, then labelled each with the rules above.
+
+| #   | Generated post                                                                                          | My label   | Clean?                                                            |
+| --- | ------------------------------------------------------------------------------------------------------- | ---------- | ----------------------------------------------------------------- |
+| 1   | Salah has 14 goal contributions in 9 games. Best player in the league, not even close.                  | `analysis` | Yes: the stat supports the claim                                  |
+| 2   | WHAT A SAVE. He did that against Arsenal last year too, I swear he lives for these games.               | `reaction` | No: needed the second rule                                        |
+| 3   | Refs have given us 3 penalties in 20 games. Absolute joke of a league.                                  | `analysis` | Yes: heated tone, but the fact is the argument                    |
+| 4   | This manager is a fraud and everyone knew it the day he signed.                                         | `hot_take` | Yes                                                               |
+| 5   | Rule 12 says handball only counts if the arm makes the body bigger. His arm was by his side. Not a pen. | `analysis` | Yes                                                               |
+| 6   | Can't believe we just lost to a team bottom of the table 😭                                             | `reaction` | No: needed the second rule                                        |
+| 7   | Honestly City should be relegated. They broke 115 rules.                                                | `analysis` | No: "115" is checkable, but they are charges, not proven breaches |
+| 8   | Reminder: match thread rules apply, report spoilers to the mods.                                        | `bot`      | No: only if it was posted automatically                           |
+
+**What I tightened:** posts 2 and 6 showed that "any checkable fact means `analysis`" was too broad, so I added the second rule: a fact only counts when the post argues with it. Post 8 shows that a mod notice typed by a human fits none of my labels. That's rare in my data, so I kept `bot` to mean automatically posted messages.
 
 ---
 
@@ -98,12 +146,12 @@ Say so plainly — the disclosure is required, not penalised. -->
 
 **Counts per label:**
 
-| Label | Count | Share |
-|---|---|---|
-|  |  |  |
-|  |  |  |
-|  |  |  |
-| **Total** |  | 100% |
+| Label     | Count | Share |
+| --------- | ----- | ----- |
+|           |       |       |
+|           |       |       |
+|           |       |       |
+| **Total** |       | 100%  |
 
 **Three hard cases**
 
@@ -111,25 +159,28 @@ Say so plainly — the disclosure is required, not penalised. -->
      been, and what you chose. These are worth more than the easy 190. -->
 
 **1.**
-> *The post:*
+
+> _The post:_
 >
-> *Could have been:*
+> _Could have been:_
 >
-> *I chose, because:*
+> _I chose, because:_
 
 **2.**
-> *The post:*
+
+> _The post:_
 >
-> *Could have been:*
+> _Could have been:_
 >
-> *I chose, because:*
+> _I chose, because:_
 
 **3.**
-> *The post:*
+
+> _The post:_
 >
-> *Could have been:*
+> _Could have been:_
 >
-> *I chose, because:*
+> _I chose, because:_
 
 ---
 
@@ -147,8 +198,6 @@ Say so plainly — the disclosure is required, not penalised. -->
 split. If a label had fewer than about 8 in test, say so — it explains a lot
 of next unit's variance. -->
 
-
-
 ---
 
 ## How I Used AI
@@ -162,15 +211,15 @@ of next unit's variance. -->
 
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- _What I asked for:_ I gave AI my four label definitions and asked for eight posts that sit on the boundaries between them.
+- _What came back:_ Eight r/soccer-style posts (see the Stress test table under Label Taxonomy). Four were easy to label. Four weren't: two mentioned a fact in passing but were really just feelings, one leaned on a contested number ("115 rules"), and one was a mod-style notice.
+- _What I changed:_ I added a second decision rule: a fact only makes a post `analysis` when the post argues with it, and a post that's mainly a feeling about what just happened is `reaction`.
 
 **Moment 2**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- _What I asked for:_
+- _What came back:_
+- _What I changed:_
 
 **Pre-labelling disclosure:**
 
@@ -186,22 +235,22 @@ of next unit's variance. -->
 <!-- Both models on the same posts. `python baseline.py --trained results.json`
      prints this table for you. -->
 
-| Measure | Baseline | Trained | Difference |
-|---|---|---|---|
-| Overall accuracy |  |  |  |
-| Macro F1 |  |  |  |
-| F1 — `label_one` |  |  |  |
-| F1 — `label_two` |  |  |  |
+| Measure          | Baseline | Trained | Difference |
+| ---------------- | -------- | ------- | ---------- |
+| Overall accuracy |          |         |            |
+| Macro F1         |          |         |            |
+| F1 — `label_one` |          |         |            |
+| F1 — `label_two` |          |         |            |
 
 **What I predicted before I looked:**
+
 <!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
      prediction made afterwards isn't one. -->
 
 **What the gap actually means:**
+
 <!-- If the baseline matched your trained model, your fine-tuning added
      nothing — and that is a real finding, not a failure. Say it plainly. -->
-
-
 
 ---
 
@@ -211,30 +260,29 @@ of next unit's variance. -->
      spread table; the Target and Verdict columns are yours. -->
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
-|---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| --------- | ------ | ------- | ------ | --------- | ------- |
+| 1.        |        |         |        |           |         |
+| 2.        |        |         |        |           |         |
+| 3.        |        |         |        |           |         |
+| 4.        |        |         |        |           |         |
+| 5.        |        |         |        |           |         |
 
 ### Confusion matrix
 
 <!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.
      An image of a matrix earns nothing. -->
 
-| true \ predicted |  |  |  |
-|---|---|---|---|
-| **** |  |  |  |
-| **** |  |  |  |
-| **** |  |  |  |
+| true \ predicted |     |     |     |
+| ---------------- | --- | --- | --- |
+| \*\*\*\*         |     |     |     |
+| \*\*\*\*         |     |     |     |
+| \*\*\*\*         |     |     |     |
 
 **My biggest off-diagonal number, and what it means:**
+
 <!-- Not "the model made mistakes" — WHICH boundary it didn't learn, and which
      direction. "7 real analysis posts were called hot_take and only 3 went the
      other way" is a direction, not just an error rate. -->
-
-
 
 ---
 
@@ -243,13 +291,13 @@ of next unit's variance. -->
 <!-- MET or MISSED against LAST UNIT's target. The target has to hold across
      all three seeds, not turn up sometimes. -->
 
-| # | Criterion | Target | Verdict | How I decided |
-|---|---|---|---|---|
-| 1 |  |  |  |  |
-| 2 |  |  |  |  |
-| 3 |  |  |  |  |
-| 4 |  |  |  |  |
-| 5 |  |  |  |  |
+| #   | Criterion | Target | Verdict | How I decided |
+| --- | --------- | ------ | ------- | ------------- |
+| 1   |           |        |         |               |
+| 2   |           |        |         |               |
+| 3   |           |        |         |               |
+| 4   |           |        |         |               |
+| 5   |           |        |         |               |
 
 **Diagnoses**
 
@@ -262,8 +310,6 @@ of next unit's variance. -->
      have that can tell a LABELLING problem from a MODEL problem, and this
      section is graded on whether you used it that way. -->
 
-
-
 ---
 
 ## Agreement Report
@@ -274,7 +320,7 @@ of next unit's variance. -->
      data/staff_taxonomy.md, not your own — so every argument below is made
      from those definitions and those decision rules. -->
 
-**Agreement rate:** ___ / 30 = ___%
+**Agreement rate:** **_ / 30 = _**%
 
 <!-- Nobody grades this number. A 60% who argues every disagreement from the
      stated rules beats a 95% who wrote "staff was right" nine times. Several
@@ -297,26 +343,26 @@ of next unit's variance. -->
      what you did across your own 200. -->
 
 **1.**
-> *The post:*
+
+> _The post:_
 >
-> *Staff said / I said:*
+> _Staff said / I said:_
 >
-> *My call, and why:*
+> _My call, and why:_
 >
-> *Which pile:*
+> _Which pile:_
 
 **2.**
-> *The post:*
+
+> _The post:_
 >
-> *Staff said / I said:*
+> _Staff said / I said:_
 >
-> *My call, and why:*
+> _My call, and why:_
 >
-> *Which pile:*
+> _Which pile:_
 
 **What the pattern in my disagreements tells me:**
-
-
 
 ---
 
@@ -329,19 +375,17 @@ of next unit's variance. -->
 ### Run Log — After
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
-|---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| --------- | ------ | ------- | ------ | --------- | ------- |
+| 1.        |        |         |        |           |         |
+| 2.        |        |         |        |           |         |
+| 3.        |        |         |        |           |         |
+| 4.        |        |         |        |           |         |
+| 5.        |        |         |        |           |         |
 
 **Did it help, and how do I know:**
 
 <!-- If it didn't, say so. Relabelling that didn't help is a genuinely
      interesting result and earns full credit. -->
-
-
 
 ---
 
@@ -349,28 +393,25 @@ of next unit's variance. -->
 
 <!-- For each criterion still missed: what you'd do, and why you stopped. -->
 
-
-
 **The gap between what I meant my labels to capture and what the model
 learned:**
+
 <!-- Two sentences. Your confusion matrix is the evidence. -->
-
-
 
 <!-- ═════════════════════════════════════════════════════════════════════
 
      SUBMISSION CHECKLIST — unit 5
 
-       [ ] criteria.md has five numbered criteria, each naming a NUMBER
-       [ ] Each has a reason underneath tied to your data or taxonomy
-       [ ] labels.csv: at least 150 rows, text/label/note, ONE file not split
-       [ ] No label above 70%
-       [ ] All five unit 5 sections have real content
-       [ ] Label Taxonomy includes the decision rule for your hardest boundary
-       [ ] The Dataset includes three hard cases
-       [ ] results.json and test_split.csv committed (the notebook does this)
-       [ ] At least four new commits
-       [ ] Repository URL submitted — WRITE IT DOWN
+       [x] criteria.md has five numbered criteria, each naming a NUMBER
+       [x] Each has a reason underneath tied to your data or taxonomy
+       [x] labels.csv: at least 150 rows, text/label/note, ONE file not split
+       [x] No label above 70%
+       [x] All five unit 5 sections have real content
+       [x] Label Taxonomy includes the decision rule for your hardest boundary
+       [x] The Dataset includes three hard cases
+       [x] results.json and test_split.csv committed (the notebook does this)
+       [x] At least four new commits
+       [x] Repository URL submitted — WRITE IT DOWN
 
      SUBMISSION CHECKLIST — unit 6
 
