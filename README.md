@@ -192,15 +192,28 @@ No label is above 70%. 18 of the 21 `bot` rows are the same AutoModerator "Mirro
 
 <!-- Your starting model, your settings, and anything you changed and why. -->
 
-**Base model:**
+**Base model:** `distilbert-base-uncased`
 
 **Settings:** <!-- epochs, learning rate, batch size, seed -->
+3 epochs, learning rate 2e-5, batch size 16, max length 128 tokens, seed 42.
 
-**Anything I changed from the defaults, and why:**
+**Anything I changed from the defaults, and why:** Nothing. I trained with the notebook's defaults.
+
+**Device:** CPU (`cpu`), torch 2.14.1+cpu. Training took 36 steps and about 4 min 34 s.
 
 **Split sizes:** <!-- train / val / test, and per-label counts in the test
 split. If a label had fewer than about 8 in test, say so — it explains a lot
 of next unit's variance. -->
+train 180 · val 39 · test 39
+
+| Label    | Train | Val | Test |
+| -------- | ----- | --- | ---- |
+| analysis | 33    | 7   | 7    |
+| hot_take | 66    | 14  | 15   |
+| reaction | 66    | 15  | 14   |
+| bot      | 15    | 3   | 3    |
+
+`analysis` (7) and `bot` (3) have fewer than 8 examples in the test split, so their F1 will move a lot between seeds. The data check also warned about 17 duplicate posts, mostly copies of the AutoMod bot message. Copies can land in both train and test, which will inflate the `bot` score.
 
 ---
 
