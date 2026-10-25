@@ -139,19 +139,23 @@ I gave an AI tool my definitions and asked for eight posts that sit on my bounda
 <!-- Where you collected from, how you labelled, your counts, and three hard
      cases. -->
 
-**Where the posts came from:**
+**Where the posts came from:** Public comments from r/soccer, copied whole (not trimmed) into a single unsplit `labels.csv`.
 
 **How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
 Say so plainly — the disclosure is required, not penalised. -->
+I labelled the first 29 comments cold, by hand, with no tools, using only my definitions. These are marked `cold` in the note column. An AI assistant then pre-labelled the remaining 229, following my definitions and the pattern in my first 29, and I double-checked every one of those labels. They're marked `pre-labelled (AI), reviewed`.
 
 **Counts per label:**
 
 | Label     | Count | Share |
 | --------- | ----- | ----- |
-|           |       |       |
-|           |       |       |
-|           |       |       |
-| **Total** |       | 100%  |
+| reaction  | 95    | 36.8% |
+| hot_take  | 95    | 36.8% |
+| analysis  | 47    | 18.2% |
+| bot       | 21    | 8.1%  |
+| **Total** | 258   | 100%  |
+
+No label is above 70%. 18 of the 21 `bot` rows are the same AutoModerator "Mirrors / Alternative Angles" comment, so `bot` has only 4 unique texts.
 
 **Three hard cases**
 
@@ -160,27 +164,27 @@ Say so plainly — the disclosure is required, not penalised. -->
 
 **1.**
 
-> _The post:_
+> _The post:_ "Spurs had 70% possession; that’s insane. Chelsea have no midfield. Alonso will be gone soon."
 >
-> _Could have been:_
+> _Could have been:_ `analysis` or `hot_take`
 >
-> _I chose, because:_
+> _I chose, because:_ `analysis`. The 70% possession stat is a checkable fact, and it's the evidence for "Chelsea have no midfield." Under my decision rule, one checkable fact used to support the claim makes it `analysis`, even though the last sentence is a pure opinion.
 
 **2.**
 
-> _The post:_
+> _The post:_ "Until this is consistently called it'll always be a controversial decision, many players do this or even worse each game and nothing happens."
 >
-> _Could have been:_
+> _Could have been:_ `analysis` or `hot_take`
 >
-> _I chose, because:_
+> _I chose, because:_ `analysis`. It argues a cause (inconsistent refereeing) rather than just reacting, and it points at something people can go and check in other matches. It's a weak case, though: it doesn't name a specific match or stat, so under a strict reading of my rule it's a `hot_take`. This is the kind of post where my labels are least consistent.
 
 **3.**
 
-> _The post:_
+> _The post:_ "Relegate city to sunday league"
 >
-> _Could have been:_
+> _Could have been:_ `reaction` or `hot_take`
 >
-> _I chose, because:_
+> _I chose, because:_ `reaction`. It was posted in response to the City verdict news, and it reads as an instant emotional outburst, not a claim the poster is trying to defend. If it had said "City should be relegated because…", it would be a `hot_take`.
 
 ---
 
@@ -221,7 +225,7 @@ of next unit's variance. -->
 - _What came back:_
 - _What I changed:_
 
-**Pre-labelling disclosure:** I labelled the first 29 comments myself. An AI assistant then labelled the rest (about 90% of the 258 rows), following the pattern in my first 29 and my label definitions.
+**Pre-labelling disclosure:** I labelled the first 29 comments myself. An AI assistant then labelled the rest (about 90% of the 258 rows), following the pattern in my first 29 and my label definitions. I double-checked every AI label. Rows are marked `cold` or `pre-labelled (AI), reviewed` in the note column.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
