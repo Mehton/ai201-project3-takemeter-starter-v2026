@@ -221,7 +221,7 @@ of next unit's variance. -->
 - _What came back:_
 - _What I changed:_
 
-**Pre-labelling disclosure:**
+**Pre-labelling disclosure:** I labelled the first 29 comments myself. An AI assistant then labelled the rest (about 90% of the 258 rows), following the pattern in my first 29 and my label definitions.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
