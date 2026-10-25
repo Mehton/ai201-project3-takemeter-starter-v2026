@@ -42,6 +42,8 @@
 <!-- Your community, and what your classifier sorts posts into. Three or four
      sentences. -->
 
+TakeMeter sorts comments from r/soccer, Reddit's main football community, by the kind of take they are. Each comment gets one of four labels: `analysis` (an argument backed by a specific, checkable fact), `hot_take` (a confident claim with no support), `reaction` (an immediate response to something that just happened), or `bot` (an automatically posted message). The model is DistilBERT fine-tuned on 258 comments I labelled. The goal is to separate the posts that argue from the posts that just assert or react, which is hard to do at a glance in a busy match or news thread.
+
 ---
 
 ## Label Taxonomy
@@ -231,12 +233,6 @@ train 180 · val 39 · test 39
 - _What I asked for:_ I gave AI my four label definitions and asked for eight posts that sit on the boundaries between them.
 - _What came back:_ Eight r/soccer-style posts (see the Stress test table under Label Taxonomy). Four were easy to label. Four weren't: two mentioned a fact in passing but were really just feelings, one leaned on a contested number ("115 rules"), and one was a mod-style notice.
 - _What I changed:_ I added a second decision rule: a fact only makes a post `analysis` when the post argues with it, and a post that's mainly a feeling about what just happened is `reaction`.
-
-**Moment 2**
-
-- _What I asked for:_
-- _What came back:_
-- _What I changed:_
 
 **Pre-labelling disclosure:** I labelled the first 29 comments myself. An AI assistant then labelled the rest (about 90% of the 258 rows), following the pattern in my first 29 and my label definitions. I double-checked every AI label. Rows are marked `cold` or `pre-labelled (AI), reviewed` in the note column.
 
