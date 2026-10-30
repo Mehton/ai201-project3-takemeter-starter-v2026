@@ -250,20 +250,39 @@ train 180 · val 39 · test 39
 
 | Measure          | Baseline | Trained | Difference |
 | ---------------- | -------- | ------- | ---------- |
-| Overall accuracy |          |         |            |
-| Macro F1         |          |         |            |
-| F1 — `label_one` |          |         |            |
-| F1 — `label_two` |          |         |            |
+| Overall accuracy | 0.333    | 0.564   | +0.231     |
+| Macro F1         | 0.429    | 0.543   | +0.114     |
+| F1 — `analysis`  | 0.286    | 0.000   | -0.286     |
+| F1 — `bot`       | 1.000    | 1.000   | +0.000     |
+| F1 — `hot_take`  | 0.000    | 0.571   | +0.571     |
+| F1 — `reaction`  | 0.429    | 0.600   | +0.171     |
+
+The Baseline column is `facebook/bart-large-mnli` zero-shot, using my definitions from `label_definitions.txt` (`baseline_results.json`). I also ran it once with bare label names (`baseline_bare.json`) to measure what the definitions were worth:
+
+| Measure          | Baseline (definitions) | Baseline (bare names) | Trained |
+| ---------------- | ---------------------- | --------------------- | ------- |
+| Overall accuracy | 0.333                  | 0.641                 | 0.564   |
+| Macro F1         | 0.429                  | 0.639                 | 0.543   |
+| F1 — `analysis`  | 0.286                  | 0.250                 | 0.000   |
+| F1 — `bot`       | 1.000                  | 1.000                 | 1.000   |
+| F1 — `hot_take`  | 0.000                  | 0.667                 | 0.571   |
+| F1 — `reaction`  | 0.429                  | 0.640                 | 0.600   |
 
 **What I predicted before I looked:**
 
 <!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
      prediction made afterwards isn't one. -->
 
+I predict the trained model will beat the baseline mainly on `hot_take` and `reaction`, because it learned what those posts look like in r/soccer, but it won't do better on `analysis`, which has too few examples, and it can only tie on `bot`.
+
 **What the gap actually means:**
 
 <!-- If the baseline matched your trained model, your fine-tuning added
      nothing — and that is a real finding, not a failure. Say it plainly. -->
+
+Against the baseline that used my definitions, the trained model looks better: accuracy rises by 0.23, almost all of it from `hot_take` 0.00 to 0.57 and `reaction` 0.43 to 0.60. But when I ran the baseline again with bare label names, it scored 0.641 accuracy and 0.639 macro F1, beating the trained model on every label except `bot`, where they tie. So my definitions made the zero-shot model worse, by 31 points of accuracy. The `hot_take` definition asks the model to notice that something is missing, and it can't. The `analysis` definition pulled in posts that only sound factual: the baseline called 21 posts `analysis` and only 4 were right.
+
+Against the stronger, bare-names baseline, fine-tuning on this split added nothing. The trained model also never predicted `analysis` once: of the 7 analysis posts, 5 went to `hot_take` and 2 to `reaction`. My prediction was right that `hot_take` and `reaction` would be its best labels and wrong that it would beat a general model. These numbers come from one 39-post split with only 7 `analysis` posts, so the three-seed runs will show whether the gap holds.
 
 ---
 
