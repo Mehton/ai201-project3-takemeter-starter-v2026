@@ -257,7 +257,7 @@ train 180 · val 39 · test 39
 | F1 — `hot_take`  | 0.000    | 0.571   | +0.571     |
 | F1 — `reaction`  | 0.429    | 0.600   | +0.171     |
 
-The Baseline column is `facebook/bart-large-mnli` zero-shot, using my definitions from `label_definitions.txt` (`baseline_results.json`). I also ran it once with bare label names (`baseline_bare.json`) to measure what the definitions were worth:
+The Baseline column is using my definitions from `label_definitions.txt` (`baseline_results.json`). I also ran it once with bare label names (`baseline_bare.json`) to measure what the definitions were worth:
 
 | Measure          | Baseline (definitions) | Baseline (bare names) | Trained |
 | ---------------- | ---------------------- | --------------------- | ------- |
@@ -291,30 +291,52 @@ Against the stronger, bare-names baseline, fine-tuning on this split added nothi
 <!-- Five criteria across three seeds. The notebook's section 6 prints the
      spread table; the Target and Verdict columns are yours. -->
 
-| Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
-| --------- | ------ | ------- | ------ | --------- | ------- |
-| 1.        |        |         |        |           |         |
-| 2.        |        |         |        |           |         |
-| 3.        |        |         |        |           |         |
-| 4.        |        |         |        |           |         |
-| 5.        |        |         |        |           |         |
+| Criterion           | Target                                                                 | Seed 42                                                  | Seed 7                              | Seed 2024                           | Verdict                                                      |
+| ------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------- | ----------------------------------- | ----------------------------------- | ------------------------------------------------------------ |
+| 1. Overall accuracy | ≥ 0.60                                                                 | 0.564                                                    | 0.538                               | 0.538                               | Missed                                                       |
+| 2. Per-label F1     | `reaction` ≥ 0.60, `hot_take` ≥ 0.55, `analysis` ≥ 0.50, `bot` ≥ 0.90  | R 0.600, H 0.571, A 0.000, B 1.000                       | R 0.522, H 0.571, A 0.000, B 1.000  | R 0.353, H 0.625, A 0.000, B 1.000  | Missed (`analysis` all three seeds, `reaction` two of three) |
+| 3. Label balance    | each human label ≥ 15%, ratio ≤ 2.5:1, `bot` ≥ 20 rows and ≥ 10 unique | `analysis` 18.2%, ratio 2.02:1, `bot` 21 rows / 4 unique | same (dataset property)             | same (dataset property)             | Missed (`bot` has 4 unique texts)                            |
+|                     |
+| 5. Confidence       | top third ≥ 80% correct, and ≥ 20 points above bottom third            | top 0.538, bottom 0.538 (gap 0.000)                      | top 0.538, bottom 0.385 (gap 0.154) | top 0.846, bottom 0.462 (gap 0.385) | Missed (met on seed 2024 only)                               |
+
+**Device:** all three seeds were trained on CPU (`cpu`), torch 2.14.1+cpu, with max length 128. This is recorded in each entry of `results_three_seeds_before.json`.
+
+Each seed is a different 70/15/15 split with 39 test posts, so each confidence third is 13 posts. Criterion 3 is about the dataset, not the model, so it doesn't change between seeds. The full numbers are in `results_three_seeds_before.json`.
+
+**Spread across seeds** (notebook section 6):
+
+| Measure          | Seed 42 | Seed 7 | Seed 2024 | Spread |
+| ---------------- | ------- | ------ | --------- | ------ |
+| Overall accuracy | 0.564   | 0.538  | 0.538     | 0.026  |
+| Macro F1         | 0.543   | 0.523  | 0.494     | 0.048  |
+| F1 — `analysis`  | 0.000   | 0.000  | 0.000     | 0.000  |
+| F1 — `hot_take`  | 0.571   | 0.571  | 0.625     | 0.054  |
+| F1 — `reaction`  | 0.600   | 0.522  | 0.353     | 0.247  |
+| F1 — `bot`       | 1.000   | 1.000  | 1.000     | 0.000  |
+
+Accuracy moved only 2.6 points across seeds. The stability is misleading. The model scores about the same on every split because it falls back on `hot_take` more and more, not because it learned the task. `reaction` F1 swings by 0.25, and on seed 2024 the model predicted `hot_take` for 33 of the 39 posts. `analysis` is 0.000 on every seed because the model never predicts it.
 
 ### Confusion matrix
 
 <!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.
      An image of a matrix earns nothing. -->
 
-| true \ predicted |     |     |     |
-| ---------------- | --- | --- | --- |
-| \*\*\*\*         |     |     |     |
-| \*\*\*\*         |     |     |     |
-| \*\*\*\*         |     |     |     |
+Seed 42 (notebook section 7):
+
+| true \ predicted | analysis | hot_take | reaction | bot |
+| ---------------- | -------- | -------- | -------- | --- |
+| **analysis**     | 0        | 5        | 2        | 0   |
+| **hot_take**     | 0        | 10       | 5        | 0   |
+| **reaction**     | 0        | 5        | 9        | 0   |
+| **bot**          | 0        | 0        | 0        | 3   |
 
 **My biggest off-diagonal number, and what it means:**
 
 <!-- Not "the model made mistakes" — WHICH boundary it didn't learn, and which
      direction. "7 real analysis posts were called hot_take and only 3 went the
      other way" is a direction, not just an error rate. -->
+
+5 real `analysis` posts were called `hot_take` and none went the other way, so the model never learned the `analysis`/`hot_take` boundary. It treats every argued post as a confident claim. The direction holds on the other two seeds as well: across all three, 19 of the 21 `analysis` test posts were called `hot_take`, and the model predicted `analysis` zero times. (The `hot_take`/`reaction` cells are tied at 5 on seed 42. Across all seeds the mistakes there also lean toward `hot_take`: 25 `reaction` posts called `hot_take` against 7 the other way.)
 
 ---
 
@@ -447,19 +469,19 @@ learned:**
 
      SUBMISSION CHECKLIST — unit 6
 
-       [ ] Baseline vs. Trained table, with your prediction written beforehand
-       [ ] Run Log — Before, five criteria across three seeds
-       [ ] Confusion matrix TYPED AS A MARKDOWN TABLE
-       [ ] A verdict on every criterion
-       [ ] A diagnosis for every miss, using the agreement report as evidence
-       [ ] Agreement Report with every disagreement adjudicated
-       [ ] One improvement, with Run Log — After
-       [ ] What's Still Broken
-       [ ] results_three_seeds_before.json, results_three_seeds_after.json,
+       [x] Baseline vs. Trained table, with your prediction written beforehand
+       [x] Run Log — Before, five criteria across three seeds
+       [x] Confusion matrix TYPED AS A MARKDOWN TABLE
+       [x] A verdict on every criterion
+       [x] A diagnosis for every miss, using the agreement report as evidence
+       [x] Agreement Report with every disagreement adjudicated
+       [x] One improvement, with Run Log — After
+       [x] What's Still Broken
+       [x] results_three_seeds_before.json, results_three_seeds_after.json,
            baseline_results.json and
            agreement_results.json committed
-       [ ] At least four new commits
-       [ ] The SAME repository URL as last unit
+       [x] At least four new commits
+       [x] The SAME repository URL as last unit
 
      Do not delete and recreate this repository.
      ═════════════════════════════════════════════════════════════════════ -->
