@@ -291,13 +291,13 @@ Against the stronger, bare-names baseline, fine-tuning on this split added nothi
 <!-- Five criteria across three seeds. The notebook's section 6 prints the
      spread table; the Target and Verdict columns are yours. -->
 
-| Criterion           | Target                                                                 | Seed 42                                                  | Seed 7                              | Seed 2024                           | Verdict                                                      |
-| ------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------- | ----------------------------------- | ----------------------------------- | ------------------------------------------------------------ |
-| 1. Overall accuracy | ≥ 0.60                                                                 | 0.564                                                    | 0.538                               | 0.538                               | Missed                                                       |
-| 2. Per-label F1     | `reaction` ≥ 0.60, `hot_take` ≥ 0.55, `analysis` ≥ 0.50, `bot` ≥ 0.90  | R 0.600, H 0.571, A 0.000, B 1.000                       | R 0.522, H 0.571, A 0.000, B 1.000  | R 0.353, H 0.625, A 0.000, B 1.000  | Missed (`analysis` all three seeds, `reaction` two of three) |
-| 3. Label balance    | each human label ≥ 15%, ratio ≤ 2.5:1, `bot` ≥ 20 rows and ≥ 10 unique | `analysis` 18.2%, ratio 2.02:1, `bot` 21 rows / 4 unique | same (dataset property)             | same (dataset property)             | Missed (`bot` has 4 unique texts)                            |
-|                     |
-| 5. Confidence       | top third ≥ 80% correct, and ≥ 20 points above bottom third            | top 0.538, bottom 0.538 (gap 0.000)                      | top 0.538, bottom 0.385 (gap 0.154) | top 0.846, bottom 0.462 (gap 0.385) | Missed (met on seed 2024 only)                               |
+| Criterion           | Target                                                                 | Seed 42                                                  | Seed 7                              | Seed 2024                           | Verdict                                                           |
+| ------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------- | ----------------------------------- | ----------------------------------- | ----------------------------------------------------------------- |
+| 1. Overall accuracy | ≥ 0.60                                                                 | 0.564                                                    | 0.538                               | 0.538                               | MISSED                                                            |
+| 2. Per-label F1     | `reaction` ≥ 0.60, `hot_take` ≥ 0.55, `analysis` ≥ 0.50, `bot` ≥ 0.90  | R 0.600, H 0.571, A 0.000, B 1.000                       | R 0.522, H 0.571, A 0.000, B 1.000  | R 0.353, H 0.625, A 0.000, B 1.000  | MISSED (`analysis` all three seeds, `reaction` two of three)      |
+| 3. Label balance    | each human label ≥ 15%, ratio ≤ 2.5:1, `bot` ≥ 20 rows and ≥ 10 unique | `analysis` 18.2%, ratio 2.02:1, `bot` 21 rows / 4 unique | same (dataset property)             | same (dataset property)             | MISSED (`bot` has 4 unique texts)                                 |
+| 4. Agreement        | ≥ 75%                                                                  | 24 / 30 = 80% (staff set)                                | same (not seed-dependent)           | same (not seed-dependent)           | MET (80% ≥ 75%), on the 30-post staff set, not 40 of my own posts |
+| 5. Confidence       | top third ≥ 80% correct, and ≥ 20 points above bottom third            | top 0.538, bottom 0.538 (gap 0.000)                      | top 0.538, bottom 0.385 (gap 0.154) | top 0.846, bottom 0.462 (gap 0.385) | MISSED (met on seed 2024 only)                                    |
 
 **Device:** all three seeds were trained on CPU (`cpu`), torch 2.14.1+cpu, with max length 128. This is recorded in each entry of `results_three_seeds_before.json`.
 
@@ -345,13 +345,13 @@ Seed 42 (notebook section 7):
 <!-- MET or MISSED against LAST UNIT's target. The target has to hold across
      all three seeds, not turn up sometimes. -->
 
-| #   | Criterion | Target | Verdict | How I decided |
-| --- | --------- | ------ | ------- | ------------- |
-| 1   |           |        |         |               |
-| 2   |           |        |         |               |
-| 3   |           |        |         |               |
-| 4   |           |        |         |               |
-| 5   |           |        |         |               |
+| #   | Criterion                        | Target                                                                 | Verdict    | How I decided                                                                                                                                                                                                                                                                                  |
+| --- | -------------------------------- | ---------------------------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Overall accuracy                 | ≥ 0.60                                                                 | **MISSED** | 0.564, 0.538, 0.538. Below 0.60 on all three seeds.                                                                                                                                                                                                                                            |
+| 2   | Per-label F1                     | `reaction` ≥ 0.60, `hot_take` ≥ 0.55, `analysis` ≥ 0.50, `bot` ≥ 0.90  | **MISSED** | `analysis` is 0.000 on every seed. `reaction` is 0.600, 0.522, 0.353, so it holds on one seed only. `hot_take` holds on all three (0.571, 0.571, 0.625). `bot` scores 1.000, but my criterion says that only counts if duplicate bot comments were removed before the split, and they weren't. |
+| 3   | Label balance                    | each human label ≥ 15%, ratio ≤ 2.5:1, `bot` ≥ 20 rows and ≥ 10 unique | **MISSED** | `analysis` is 18.2% and the ratio is 2.02:1, both of which pass, but `bot` has only 4 unique texts against a target of 10.                                                                                                                                                                     |
+| 4   | Agreement with a second labeller | ≥ 75%                                                                  | **MET**    | 24 / 30 = 80% against the staff set. Caveat: my criterion described a second person labelling 40 of _my_ posts. The staff check is 30 of _their_ posts under _their_ taxonomy, so it's the closest measurement I have, not the exact one.                                                      |
+| 5   | Confidence                       | top third ≥ 80% correct, and ≥ 20 points above bottom third            | **MISSED** | Top third 0.538, 0.538, 0.846; gaps 0.000, 0.154, 0.385. It holds on seed 2024 only.                                                                                                                                                                                                           |
 
 **Diagnoses**
 
@@ -364,6 +364,22 @@ Seed 42 (notebook section 7):
      have that can tell a LABELLING problem from a MODEL problem, and this
      section is graded on whether you used it that way. -->
 
+**Criterion 1 (accuracy): a task the model didn't reach with this much training.** The training log shows that the Loss went from 1.36 to 1.23 and 1.16 over the three epochs. 1.386 is what a model scores if it guesses evenly across four labels, so the model ended barely better than a guess, and loss was still falling when training stopped. Three epochs of 180 posts at batch size 16 is only 36 update steps. The model's confidence says the same: its average top-class probability was 0.36 to 0.39 on every seed, against 0.25 for pure chance. With that little signal it falls back on the two biggest labels. It predicted `hot_take` for 20, 28 and 33 of the 39 test posts on the three seeds. Accuracy is stable across seeds (spread 0.026) because the model is guessing the same way on every split, not because it learned something stable.
+
+**Criterion 2 (`analysis` F1 0.000): too few examples, made worse by an under-trained model, with my labelling as a contributing factor.** The model never predicted `analysis` on any seed, and 19 of the 21 `analysis` test posts went to `hot_take`. Three things point to the cause:
+
+- _Too few examples._ `analysis` has 33 training posts against 66 each for `hot_take` and `reaction`. An under-trained model ignores its smallest human label first.
+- My `analysis` posts look different on the surface: median length 50 words against 15 for `hot_take`, and 40% contain a digit against 14%. A model that had learned anything would have picked up on length alone. A model that never predicts the label at all hasn't learned it yet; that isn't a hard boundary.
+- _My labelling likely blurs the boundary too._ My agreement report is the evidence. In 3 of my 6 disagreements with staff, I called a post `analysis` because it contained a number, when the number was decoration on an unsupported claim.
+
+**Criterion 2 (`reaction` F1 0.600, 0.522, 0.353): the same under-training, showing up as drift toward `hot_take`.** Across the three seeds, 25 `reaction` posts were called `hot_take` and only 7 went the other way. On seed 2024 only 3 posts were predicted `reaction` at all. There is a labelling weakness on this boundary, but the size of the swing between seeds (0.25) tracks how heavily each run leaned on `hot_take`. That points mainly at the model.
+
+**Criterion 2 (`bot`): the 1.000 doesn't count.** 18 of the 21 `bot` rows are the same AutoModerator comment, so copies land in both train and test, and the model only has to recognise a text it has already seen. My criterion said this score counts only if duplicates were removed before the split. They weren't, so `bot` fails that condition even though the number is perfect.
+
+**Criterion 5 (confidence): the confidence scores barely vary, so the thirds are mostly noise.** The average top-class probability was 0.36 to 0.39 on every seed, and confident and unsure predictions were almost equally likely to be right. On seed 42, mean confidence was 0.362 when right and 0.361 when wrong. Sorting predictions by a number that barely varies gives thirds that are close to random. Each third is only 13 posts, so one post moves its accuracy by 7.7 points. Seed 2024 passing (0.846 vs 0.462) is most likely a lucky draw, not evidence the scores mean something. Same root cause as criterion 1: the model is too under-trained to be confident about anything.
+
+**Labelling or model, overall?** Mostly model with my labelling as a real but secondary cause on `analysis`. The agreement report shows I apply rule 1 loosely and did not properly apply `hot_take`, and that would blur the `analysis`/`hot_take` boundary in my training data. But the training loss shows the model never got far enough to be limited by that boundary.
+
 ---
 
 ## Agreement Report
@@ -374,7 +390,7 @@ Seed 42 (notebook section 7):
      data/staff_taxonomy.md, not your own — so every argument below is made
      from those definitions and those decision rules. -->
 
-**Agreement rate:** **_ / 30 = _**%
+**Agreement rate:** **24 / 30 = 80%**
 
 <!-- Nobody grades this number. A 60% who argues every disagreement from the
      stated rules beats a 95% who wrote "staff was right" nine times. Several
@@ -398,25 +414,67 @@ Seed 42 (notebook section 7):
 
 **1.**
 
-> _The post:_
+> _The post:_ "The club championship scoring changed in 2019 from top-6 to top-10. Since then our B team has finished above the A team twice. That's not depth improving, it's the scoring rewarding turnout."
 >
-> _Staff said / I said:_
+> _Staff said / I said:_ `analysis` / `hot_take`
 >
-> _My call, and why:_
+> _My call, and why:_ Staff is right. This has the same structure as the staff example under rule 1: a rule changed in a named year, a checkable outcome followed, and the conclusion is drawn from the two. Take away the 2019 change and the B-team results and there's no argument left, so the facts carry it. I treated the conclusion as a claim without support, but the support is right there.
 >
-> _Which pile:_
+> _Which pile:_ (a) Rule 1 covers it, and I applied it loosely.
 
 **2.**
 
-> _The post:_
+> _The post:_ "Anyone who races more than once a month isn't training, they're just collecting medals."
 >
-> _Staff said / I said:_
+> _Staff said / I said:_ `hot_take` / `analysis`
 >
-> _My call, and why:_
+> _My call, and why:_ Staff is right. "Once a month" is a threshold the writer picked, not a fact anyone could check. Nothing in the post backs the conclusion. It's a confident general claim with a number in it.
 >
-> _Which pile:_
+> _Which pile:_ (a) I let the presence of a number stand in for evidence.
+
+**3.**
+
+> _The post:_ "Road racing peaked in about 2015 and everything since has been marketing."
+>
+> _Staff said / I said:_ `hot_take` / `analysis`
+>
+> _My call, and why:_ Staff is right. "About 2015" is a date, but it's part of the claim, not support for it. Nothing shows racing peaked then or that later growth is marketing. This is rule 1's "number as decoration" case, and the hedge "about" makes the date even less checkable.
+>
+> _Which pile:_ (a) Rule 1 covers it.
+
+**4.**
+
+> _The post:_ "Track sessions are wasted on anyone running slower than 8 minute miles. You'd get more out of just running more."
+>
+> _Staff said / I said:_ `hot_take` / `analysis`
+>
+> _My call, and why:_ Staff is right in the end, but the definition helped cause my mistake. The staff definition of `analysis` lists "a time" as an example of a checkable fact, and "8 minute miles" is literally a time. But here it's a cutoff the writer chose, not a measured result. The second sentence gives a reason, but the reason is itself an unsupported claim. Under rule 1 nothing load-bearing is checkable, so it's `hot_take`.
+>
+> _Which pile:_ (b) A gap in the definition. It doesn't separate a time used as evidence from a time used as a threshold inside the claim.
+
+**5.**
+
+> _The post:_ "Nobody actually enjoys the long run. They enjoy having done it, which is a completely different thing, and the sport would be more honest if it said so."
+>
+> _Staff said / I said:_ `hot_take` / `reaction`
+>
+> _My call, and why:_ Staff is right. Rule 2 asks whether a post is about the writer or a claim about the world. "Nobody", "they" and "the sport" make this a general claim about every runner. It doesn't describe anything that just happened to the writer. The strong feeling misled me, and rule 2 says outright that "a post can be heated and still be `hot_take`".
+>
+> _Which pile:_ (a) Rule 2 covers it.
+
+**6.**
+
+> _The post:_ "Every injury thread on this forum is the same injury and the same three replies."
+>
+> _Staff said / I said:_ `hot_take` / `reaction`
+>
+> _My call, and why:_ I think my reading is defensible. The post is almost certainly a reply inside an injury thread, prompted by the one the writer just read. That's "an immediate response to something that just happened", and it's "feeling rather than argument": a sigh of exasperation, not a position anyone could debate. Staff read "every injury thread" as a general claim under rule 2. I read "every" as exaggeration in a frustrated reply, not a claim the writer means to defend. Rule 2's examples don't cover a post that is about the writer's frustration but is phrased as a generalisation. Under rule 4's tie-break, the whole post is spent on venting, not on arguing.
+>
+> _Which pile:_ (c) The rule is ambiguous here, and I'd argue for `reaction`.
 
 **What the pattern in my disagreements tells me:**
+
+Five of six disagreements are staff's `hot_take` that I labelled something else. I did not use `hot_take` in two ways: a number in the post makes me call it `analysis`, and strong feeling makes me call it `reaction`. Four of the six are pile, so this is mostly a consistency problem, not gaps in the rules. It's the same weakness I found in my own stress test in unit 5, where "any checkable fact means `analysis`" turned out too broad. It matters for my own data: if I applied rule 1 that loosely in `labels.csv`, some of my 47 `analysis` posts are really hot takes with a number in them. That would explain why the model can't separate `analysis` from `hot_take` and sends 19 of 21 `analysis` test posts to `hot_take`.
 
 ---
 

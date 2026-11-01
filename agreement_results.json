@@ -1,0 +1,38 @@
+{
+  "compared": 30,
+  "agreed": 24,
+  "agreement_rate": 0.8,
+  "disagreements": [
+    {
+      "text": "The club championship scoring changed in 2019 from top-6 to top-10. Since then our B team has finished above the A team twice. That's not depth improving, it's the scoring rewarding turnout.",
+      "staff": "analysis",
+      "mine": "hot_take"
+    },
+    {
+      "text": "Anyone who races more than once a month isn't training, they're just collecting medals.",
+      "staff": "hot_take",
+      "mine": "analysis"
+    },
+    {
+      "text": "Road racing peaked in about 2015 and everything since has been marketing.",
+      "staff": "hot_take",
+      "mine": "analysis"
+    },
+    {
+      "text": "Track sessions are wasted on anyone running slower than 8 minute miles. You'd get more out of just running more.",
+      "staff": "hot_take",
+      "mine": "analysis"
+    },
+    {
+      "text": "Nobody actually enjoys the long run. They enjoy having done it, which is a completely different thing, and the sport would be more honest if it said so.",
+      "staff": "hot_take",
+      "mine": "reaction"
+    },
+    {
+      "text": "Every injury thread on this forum is the same injury and the same three replies.",
+      "staff": "hot_take",
+      "mine": "reaction"
+    }
+  ],
+  "staff_posts_not_in_mine": 0
+}
