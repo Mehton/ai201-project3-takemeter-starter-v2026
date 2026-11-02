@@ -291,13 +291,13 @@ Against the stronger, bare-names baseline, fine-tuning on this split added nothi
 <!-- Five criteria across three seeds. The notebook's section 6 prints the
      spread table; the Target and Verdict columns are yours. -->
 
-| Criterion           | Target                                                                 | Seed 42                                                  | Seed 7                              | Seed 2024                           | Verdict                                                           |
-| ------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------- | ----------------------------------- | ----------------------------------- | ----------------------------------------------------------------- |
-| 1. Overall accuracy | ≥ 0.60                                                                 | 0.564                                                    | 0.538                               | 0.538                               | MISSED                                                            |
-| 2. Per-label F1     | `reaction` ≥ 0.60, `hot_take` ≥ 0.55, `analysis` ≥ 0.50, `bot` ≥ 0.90  | R 0.600, H 0.571, A 0.000, B 1.000                       | R 0.522, H 0.571, A 0.000, B 1.000  | R 0.353, H 0.625, A 0.000, B 1.000  | MISSED (`analysis` all three seeds, `reaction` two of three)      |
-| 3. Label balance    | each human label ≥ 15%, ratio ≤ 2.5:1, `bot` ≥ 20 rows and ≥ 10 unique | `analysis` 18.2%, ratio 2.02:1, `bot` 21 rows / 4 unique | same (dataset property)             | same (dataset property)             | MISSED (`bot` has 4 unique texts)                                 |
-| 4. Agreement        | ≥ 75%                                                                  | 24 / 30 = 80% (staff set)                                | same (not seed-dependent)           | same (not seed-dependent)           | MET (80% ≥ 75%), on the 30-post staff set, not 40 of my own posts |
-| 5. Confidence       | top third ≥ 80% correct, and ≥ 20 points above bottom third            | top 0.538, bottom 0.538 (gap 0.000)                      | top 0.538, bottom 0.385 (gap 0.154) | top 0.846, bottom 0.462 (gap 0.385) | MISSED (met on seed 2024 only)                                    |
+| Criterion           | Target                                                                 | Seed 42                                                   | Seed 7                                                    | Seed 2024                                                 | Verdict                                                           |
+| ------------------- | ---------------------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- | ----------------------------------------------------------------- |
+| 1. Overall accuracy | ≥ 0.60                                                                 | 0.564                                                     | 0.538                                                     | 0.538                                                     | MISSED                                                            |
+| 2. Per-label F1     | `reaction` ≥ 0.60, `hot_take` ≥ 0.55, `analysis` ≥ 0.50, `bot` ≥ 0.90  | Reaction 0.600, Hot_take 0.571, Analysis 0.000, Bot 1.000 | Reaction 0.522, Hot_take 0.571, Analysis 0.000, Bot 1.000 | Reaction 0.353, Hot_take 0.625, Analysis 0.000, Bot 1.000 | MISSED (`analysis` all three seeds, `reaction` two of three)      |
+| 3. Label balance    | each human label ≥ 15%, ratio ≤ 2.5:1, `bot` ≥ 20 rows and ≥ 10 unique | `analysis` 18.2%, ratio 2.02:1, `bot` 21 rows / 4 unique  | same (dataset property)                                   | same (dataset property)                                   | MISSED (`bot` has 4 unique texts)                                 |
+| 4. Agreement        | ≥ 75%                                                                  | 24 / 30 = 80% (staff set)                                 | same (not seed-dependent)                                 | same (not seed-dependent)                                 | MET (80% ≥ 75%), on the 30-post staff set, not 40 of my own posts |
+| 5. Confidence       | top third ≥ 80% correct, and ≥ 20 points above bottom third            | top 0.538, bottom 0.538 (gap 0.000)                       | top 0.538, bottom 0.385 (gap 0.154)                       | top 0.846, bottom 0.462 (gap 0.385)                       | MISSED (met on seed 2024 only)                                    |
 
 **Device:** all three seeds were trained on CPU (`cpu`), torch 2.14.1+cpu, with max length 128. This is recorded in each entry of `results_three_seeds_before.json`.
 
@@ -480,24 +480,43 @@ Five of six disagreements are staff's `hot_take` that I labelled something else.
 
 ## The Improvement
 
-**What I changed:**
+**What I changed:** One training setting: `EPOCHS` from 3 to 6. Everything else stayed the same: the same `labels.csv`, taxonomy and criteria, the same learning rate (2e-5) and batch size (16), and the same three seeds (42, 7, 2024), so each seed draws the same split as before. 6 epochs means 72 update steps instead of 36.
 
-**Which diagnosis pointed at it:**
+**Which diagnosis pointed at it:** The diagnosis for criteria 1 and 5. Training loss was still falling at epoch 3, and the model's average confidence was only 0.36 to 0.39. That pointed at under-training, not at the labels, so this is the one case where the assignment's "change a training setting" option fits the diagnosis. With 6 epochs, training loss on seed 42 fell to 0.75 and validation loss to 0.89.
 
 ### Run Log — After
 
-| Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
-| --------- | ------ | ------- | ------ | --------- | ------- |
-| 1.        |        |         |        |           |         |
-| 2.        |        |         |        |           |         |
-| 3.        |        |         |        |           |         |
-| 4.        |        |         |        |           |         |
-| 5.        |        |         |        |           |         |
+| Criterion           | Target                                                                 | Seed 42                                                   | Seed 7                                                    | Seed 2024                                                 | Verdict                                                                                                                                               |
+| ------------------- | ---------------------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1. Overall accuracy | ≥ 0.60                                                                 | 0.538                                                     | 0.615                                                     | 0.615                                                     | MISSED (seed 42 below)                                                                                                                                |
+| 2. Per-label F1     | `reaction` ≥ 0.60, `hot_take` ≥ 0.55, `analysis` ≥ 0.50, `bot` ≥ 0.90  | Reaction 0.571, Hot_take 0.483, Analysis 0.250, Bot 1.000 | Reaction 0.727, Hot_take 0.562, Analysis 0.000, Bot 1.000 | Reaction 0.640, Hot_take 0.516, Analysis 0.625, Bot 1.000 | MISSED (`analysis` meets on seed 2024 only, `hot_take` on seed 7 only, `reaction` on two of three, `bot` doesn't count because of duplicate comments) |
+| 3. Label balance    | each human label ≥ 15%, ratio ≤ 2.5:1, `bot` ≥ 20 rows and ≥ 10 unique | unchanged: `bot` 4 unique                                 | unchanged                                                 | unchanged                                                 | MISSED (data unchanged, by the one-change rule)                                                                                                       |
+| 4. Agreement        | ≥ 75%                                                                  | 24 / 30 = 80%                                             | same                                                      | same                                                      | MET (unchanged; a labelling measure, not a model one)                                                                                                 |
+| 5. Confidence       | top third ≥ 80% correct, and ≥ 20 points above bottom third            | top 0.846, bottom 0.462 (gap 0.385)                       | top 0.846, bottom 0.385 (gap 0.462)                       | top 0.846, bottom 0.385 (gap 0.462)                       | **MET**                                                                                                                                               |
+
+Same device as before: CPU, torch 2.14.1+cpu, max length 128. Full numbers are in `results_three_seeds_after.json`.
+
+**Confusion matrix after, seed 42:**
+
+| true \ predicted | analysis | hot_take | reaction | bot |
+| ---------------- | -------- | -------- | -------- | --- |
+| **analysis**     | 1        | 3        | 3        | 0   |
+| **hot_take**     | 0        | 7        | 8        | 0   |
+| **reaction**     | 0        | 4        | 10       | 0   |
+| **bot**          | 0        | 0        | 0        | 3   |
 
 **Did it help, and how do I know:**
 
 <!-- If it didn't, say so. Relabelling that didn't help is a genuinely
      interesting result and earns full credit. -->
+
+It flipped on criterion 5 confidence from MISSED to MET, and it improved macro F1 on every seed, but criteria 1 and 2 are still missed.
+
+- **What it fixed:** The most confident third is right 84.6% of the time on all three seeds, against 38–46% for the least confident third. Before, the two were identical on seed 42. The model also stopped collapsing onto `hot_take`, which it now predicts 14 to 18 times out of 39 instead of 20 to 33, and it predicts `analysis` for the first time (F1 0.625 on seed 2024). That confirms the diagnosis: the model was stopped before it had learned much.
+- **What got worse:** `hot_take` F1 fell on every seed. That isn't the model getting worse at `hot_take`. Before, it predicted `hot_take` for most posts, which gave the label a high recall for free. Now that it has to choose, its real ability on this label shows.
+- **What it revealed:** with the under-training removed, the errors that are left are on the boundaries my agreement report flagged. On seed 42 the biggest confusion is now 8 real `hot_take` posts called `reaction`, which is the rule 2 boundary I blurred in 2 of my 6 staff disagreements. `analysis` to `hot_take` dropped from 19 of 21 across the three seeds to 11 of 21, but it's still the most common way `analysis` goes wrong, and that's the rule 1 boundary I applied loosely in 3 of 6. So the remaining misses now look more like a labelling problem than a training problem, and relabelling those two boundaries would be the next fix.
+- **Against the baseline:** the bare-names zero-shot baseline (accuracy 0.641, macro F1 0.639) still beats the after-model on accuracy on all three seeds. It loses on macro F1 only on seed 2024 (0.695).
+- **Caveat:** accuracy spread rose from 0.026 to 0.077, and the seed 42 accuracy actually fell. With 39 test posts, one post is 2.6 points, so a single seed going down is within noise. The macro F1 gain on every seed is the more reliable signal.
 
 ---
 
@@ -505,10 +524,36 @@ Five of six disagreements are staff's `hot_take` that I labelled something else.
 
 <!-- For each criterion still missed: what you'd do, and why you stopped. -->
 
+**Criterion 1 (accuracy ≥ 0.60, missed on seed 42 at 0.538) and criterion 2 (`analysis` and `hot_take` F1):** Next I'd relabel the two boundaries my agreement report flagged, one at a time.
+
+1. go through my 47 `analysis` rows and move any where the number is decoration on a conclusion to `hot_take`.
+2. check `reaction` rows that are really heated general claims. After the 6 epoch run, these are exactly where the errors sit (`hot_take` to `reaction` is now the biggest confusion, and `analysis` to `hot_take` is still the main `analysis` error), so the evidence now points at labelling, not training.
+3. After that I'd add about 30 more `analysis` posts, because 33 training examples is still the thinnest human label, and `analysis` F1 swings from 0.000 to 0.625 between seeds. I stopped because the unit allows one change, and I spent it on training length, which is what the "before" diagnosis pointed at. Each three-seed run also takes 30–45 minutes on my laptop CPU, so I didn't have time for a second measured change.
+
+**Criterion 2 (`bot`) and criterion 3 (balance, `bot` has 4 unique texts):** I'd collect at least 10 different bot comments and remove duplicates before splitting, so the `bot` score stops measuring memorised copies. I stopped because this is a data collection fix, and the unit's rule is that the labels and dataset stay as they were.
+
+**Still behind the baseline:** the zero-shot baseline with bare label names (accuracy 0.641) still beats the trained model on accuracy on every seed. Until the relabelling above is done, fine-tuning on my 258 posts hasn't clearly earned its place over a general model.
+
 **The gap between what I meant my labels to capture and what the model
 learned:**
 
 <!-- Two sentences. Your confusion matrix is the evidence. -->
+
+I meant `analysis` to capture whether a checkable fact carries the argument, but on seed 42 after the fix it got 1 of 7 `analysis` posts right and split the other 6 evenly between `hot_take` and `reaction`, which means it isn't seeing the fact at all. It also sent 8 of 15 `hot_take` posts to `reaction`, so it separates calm from heated rather than "a claim about the world" from "a response to what just happened", which is the distinction my rule 2 actually draws.
+
+## How I Used AI
+
+**Moment 1**
+
+- _What I asked for:_ While my improvement run was going, I thought `test_split.csv` wasn't being overwritten, because git showed no changes to it even after re-running the notebook. I asked the AI assistant whether it actually writes to the CSV file.
+- _What came back:_ Yes, it does. It replaces the whole file with the 39 held-out posts every time section 5 runs (`index=False` just leaves out pandas' row-number column). The contents come out identical each time because the split always uses seed 42, which draws the same 39 posts in the same order. That's why the file's timestamp changed but git showed no difference: "overwritten with the same data" and "not changed" look the same to git. It also pointed out that section 6 never writes this file. It makes its own three splits in memory.
+- _What I changed:_ `test_split.csv`is the file `baseline.py` reads, so staying identical is exactly what keeps my baseline and trained model scored on the same posts. Instead I focused on the file section 5 _does_ change in a way that matters: `results.json`, which a re-run overwrote with 6-epoch numbers. I restored it to the committed 3-epoch version so it still matches my Baseline vs. Trained table.
+
+**Moment 2**
+
+- _What I asked for:_ The Milestone 1 instructions said to run the baseline "with label_definitions.txt and again without it… the gap between the two accuracies is what your definitions were worth." I didn't understand what that meant, so I asked the AI assistant to explain it.
+- _What came back:_ It explained that the zero-shot baseline compares each post against a list of candidate labels. With my definitions file, those candidates are my full sentences ("a confident claim with no support offered"). Without it, they are just the bare words `analysis`, `hot_take`, `reaction`, `bot`. Running both and comparing accuracies measures whether my wording helps the model or not, instead of assuming it does. It also gave me the command to run the bare-names version without overwriting my real baseline (`python baseline.py --definitions none.txt --out baseline_bare.json`).
+- _What I changed:_ I ran the bare-names baseline, which I would otherwise have skipped. It scored 0.641 accuracy against 0.333 with my definitions, so my definitions made the baseline 31 points worse, and the bare-names baseline beat my trained model (0.564). That changed my whole "What the gap actually means" write-up: instead of "fine-tuning helped", the honest finding is that a general model with plain label names did better than both. I report both baseline runs in the Baseline vs. Trained section.
 
 <!-- ═════════════════════════════════════════════════════════════════════
 
